@@ -1,0 +1,23 @@
+# 1. Ver interfaces de red activas
+ip a
+
+# 2. Configuración DHCP (forzar renovación)
+sudo dhclient -r
+sudo dhclient
+
+# 3. Configuración IP Estática (Ejemplo usando Netplan en Ubuntu/Debian)
+sudo nano /etc/netplan/01-netcfg.yaml
+# (Dentro del archivo configuras: dhcp4: no, addresses: [IP/24], routes, nameservers: [8.8.8.8, 8.8.4.4])
+sudo netplan apply
+
+# 4. Configuración usando NetworkManager (nmcli)
+nmcli connection show
+sudo nmcli connection modify "Wired connection 1" ipv4.addresses 192.168.1.50/24
+sudo nmcli connection modify "Wired connection 1" ipv4.gateway 192.168.1.1
+sudo nmcli connection modify "Wired connection 1" ipv4.dns "8.8.8.8 8.8.4.4"
+sudo nmcli connection modify "Wired connection 1" ipv4.method manual
+sudo nmcli connection up "Wired connection 1"
+
+# 5. Comprobar conectividad y DNS de Google
+ping -c 4 8.8.8.8
+ping -c 4 google.com
