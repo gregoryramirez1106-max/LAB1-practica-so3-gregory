@@ -1,0 +1,13 @@
+# 1. Crear usuario (ej: gregory) y agregarlo al grupo sudoers
+sudo useradd -m -s /bin/bash gregory
+sudo passwd gregory
+sudo usermod -aG sudo gregory
+
+# 2. Crear grupo "guest", crear otro usuario y agregarlo a ese grupo
+sudo groupadd guest
+sudo useradd -m -s /bin/bash invitado
+sudo usermod -aG guest invitado
+
+# 3. Eliminar el usuario y el grupo previamente creado
+sudo userdel -r invitado
+sudo groupdel guest
